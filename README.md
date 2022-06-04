@@ -1,24 +1,16 @@
-# distribuidora-vue
+# Cadastro de Clientes Vue
+Cadastro de Clientes (Vue 2, VueX, BootstrapVue, Axios)
 
-## Project setup
-```
-npm install
-```
+## Frontend:
+- npm install
+- npm run serve
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Tecnologias
+- Vue 2
+- VueX
+- BootstrapVue
+- Axios
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# Link:
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- <a href="#" target="_blank">Cadastro de Clientes Vue</a>
