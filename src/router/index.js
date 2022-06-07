@@ -12,7 +12,12 @@ const routes = [
   {
     path: '/clientes',
     name: 'clientes',
-    component: () => import('../views/ClientesGridView.vue')
+    component: () => import('../views/Clientes/ClientesGridView.vue')
+  },
+  {
+    path: '/cadastro',
+    name: 'cadastro',
+    component: () => import('../views/Clientes/ClienteCadastroView.vue')
   }
 ]
 
