@@ -12,7 +12,8 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav  class="ml-auto">
           <b-nav-item to="/" v-b-tooltip.hover title="Home"><b-icon icon="house-door-fill"></b-icon></b-nav-item>
-          <b-nav-item to="/clientes" v-b-tooltip.hover title="Cadastro de Clientes"><b-icon icon="people-fill"></b-icon></b-nav-item>
+          <b-nav-item to="/clientes" v-b-tooltip.hover title="Lista de Clientes"><b-icon icon="people-fill"></b-icon></b-nav-item>
+          <b-nav-item to="/cadastro" v-b-tooltip.hover title="Cadastro de Clientes"><b-icon icon="plus-circle-fill"></b-icon></b-nav-item>
         </b-navbar-nav>
       </b-collapse>
 

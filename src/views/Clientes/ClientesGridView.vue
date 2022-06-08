@@ -6,11 +6,11 @@
     <div class="d-flex justify-content-end">
       <b-button variant="outline-success" class="mb-2" v-b-tooltip.hover="{ variant: 'success' }" title="Incluir Cliente" to="/cadastro"><b-icon icon="person-plus"></b-icon></b-button>
     </div>
-    <b-table :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" :busy="isBusy" responsive sticky-header striped hover head-variant="light" :fields="fields" :items="clientes" class="table-clientes">
+    <b-table :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" :busy="isBusy" responsive sticky-header striped hover head-variant="light" :fields="fields" :items="clientes">
       <!-- actions - botões -->
       <template v-slot:cell(actions)="data">
         <b-button variant="outline-success" v-on:click="editar(data.item.id)" class="mr-2" v-b-tooltip.hover="{ variant: 'success' }" title="Editar registro"><b-icon icon="pencil"></b-icon></b-button>
-        <b-button variant="outline-danger" v-on:click="excluir(data.item.id)" v-b-tooltip.hover="{ variant: 'danger' }" title="Excluir registro"><b-icon icon="trash"></b-icon></b-button>
+        <b-button variant="outline-danger" v-on:click="excluir(data.item)" v-b-tooltip.hover="{ variant: 'danger' }" title="Excluir registro"><b-icon icon="trash"></b-icon></b-button>
       </template>
       <!-- Carregando -->
       <template #table-busy>
@@ -19,27 +19,25 @@
           <strong>Carregando...</strong>
         </div>
       </template>
-      <!-- Tipo - utilizando icones -->
+      <!-- Tipo -->
       <template #cell(tipo)="data">
         <span v-html="data.value == 0 ? 'Jurídico' : 'Físico' "></span>
       </template>      
       <template #table-caption>Registros: {{clientes.length}}</template>
     </b-table>
 
-    <!-- Implantando modal -->
-    <!-- 
+    <!-- Modal Exclusão  -->
     <template>
-      <b-modal ref="modalRemove" hide-footer title="Exclusão de tarefa">
+      <b-modal ref="modalRemove" hide-footer title="Exclusão de cliente">
         <div class="d-block text-left">
-          Deseja realmente excluir a tarefa: {{ taskSelected.titulo }}
+          Deseja realmente excluir o(a) cliente {{ clienteSelected.nome }}
         </div>
         <div class="d-flex justify-content-end mt-3">
           <b-button variant="outline-ligth" @click="hideModal">Cancelar</b-button>
-          <b-button class="ml-2" variant="outline-danger" @click="confirmRemoveTask">Excluir</b-button>
+          <b-button class="ml-2" variant="outline-danger" @click="confirmRemoveCliente">Excluir</b-button>
         </div>
       </b-modal>      
     </template>
-    -->
 
   </div>
 
@@ -57,7 +55,10 @@
         clientes: [],
         isBusy: false,
         sortBy: 'nome',
-        sortDesc: false,        
+        sortDesc: false,
+        // variável criada para selecionar o cliente na hora da exclusão, utilizada para passar o valor na modal
+        clienteSelected: [],
+        // array de configuração da tabela
         fields: [ 
           { 
             key: 'nome',
@@ -109,6 +110,7 @@
       this.getClientes()
     },
     methods: {
+      // método carrega os clientes
       getClientes() {
         this.isBusy = true
         ClientesServices.getClientes().then( response => {
@@ -120,16 +122,30 @@
         }
         )
       },
+      // método edita o cliente
       editar(id) {
-        console.log('Editar id', id)
         this.$router.push({ name: 'cadastro', params: { id: id} })
       },
-      excluir(id) {
-        ClientesServices.deleteCliente(id).then( () => {
+      // método exclui o cliente
+      excluir(cliente) {
+        this.clienteSelected = cliente
+        this.$refs.modalRemove.show()
+      },
+      // método de confimação da modal e exclusão do cliente
+      confirmRemoveCliente() {
+        ClientesServices.deleteCliente(this.clienteSelected.id).then( () => {
           this.showToast('Sucesso', `Cliente excluido com sucesso`, 'success')
+          this.clienteSelectd = ''
+          this.hideModal()
           this.getClientes();
+        }).catch(error => {
+          console.log('error', error)
         })
-      }
+      },
+      // método esconde modal
+      hideModal() {
+        this.$refs.modalRemove.hide()
+      },
     }
   }
 </script>

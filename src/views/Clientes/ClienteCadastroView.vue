@@ -95,12 +95,12 @@
 
         <!-- tab enderecos -->
         <b-tab title="Enderecos">
-          <p>Conteúdo Endereços</p>
+          <EnderecosGridComponent :fieldClienteId="form.id" />
         </b-tab>
 
         <!-- tab telefones -->
         <b-tab title="Telefones">
-          <p>Telefones</p>
+          <TelefonesGridComponent :fieldClienteId="form.id" />
         </b-tab>
 
       </b-tabs>        
@@ -112,9 +112,12 @@
 <script>
   import ClientesServices from '@/services/clientesServices'
   import ToastMixin from '@/mixins/toastMixin.js'
+  import EnderecosGridComponent from '@/components/EnderecosComponent/EnderecosGridComponent.vue'
+  import TelefonesGridComponent from '@/components/TelefonesComponent/TelefonesGridComponent.vue'
 
   export default {
     name: 'ClienteCadastroView',
+    components: { EnderecosGridComponent, TelefonesGridComponent },
     mixins: [ToastMixin],
     data() {
       return {
