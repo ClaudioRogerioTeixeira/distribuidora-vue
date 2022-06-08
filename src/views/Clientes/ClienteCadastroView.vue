@@ -84,9 +84,9 @@
             <!-- botoes -->
             <b-form-row class="mb-5">
               <b-col class="col-12 d-flex justify-content-end">
-                <b-button type="reset" variant="outline-danger" v-b-tooltip.hover="{ variant: 'secondary' }" title="Cancelar Cliente" class="mr-1" v-on:click="cancel"><b-icon icon="box-arrow-up-left" class="mr-1"></b-icon>Cancelar</b-button>
-                <b-button type="button" variant="outline-success" v-b-tooltip.hover="{ variant: 'secondary' }" title="Salvar Cliente" v-on:click="save(form)" v-if="!form.id"><b-icon icon="save" class="mr-1"></b-icon>Salvar</b-button> <!-- :disabled="!getValidation" -->
-                <b-button type="button" variant="outline-warning" v-b-tooltip.hover="{ variant: 'secondary' }" title="Alterar Cliente"  v-on:click="update(form)" v-if="form.id"><b-icon icon="arrow-clockwise" class="mr-1"></b-icon>Alterar</b-button> <!-- :disabled="!getValidation" -->
+                <b-button type="reset" variant="outline-danger" v-b-tooltip.hover="{ variant: 'danger' }" title="Cancelar Cliente" class="mr-1" v-on:click="cancel"><b-icon icon="box-arrow-up-left" class="mr-1"></b-icon>Cancelar</b-button>
+                <b-button type="button" variant="outline-success" v-b-tooltip.hover="{ variant: 'success' }" title="Salvar Cliente" v-on:click="save(form)" v-if="!form.id"><b-icon icon="save" class="mr-1"></b-icon>Salvar</b-button> <!-- :disabled="!getValidation" -->
+                <b-button type="button" variant="outline-warning" v-b-tooltip.hover="{ variant: 'warning' }" title="Alterar Cliente"  v-on:click="update(form)" v-if="form.id"><b-icon icon="arrow-clockwise" class="mr-1"></b-icon>Alterar</b-button> <!-- :disabled="!getValidation" -->
               </b-col>
             </b-form-row>      
           </b-form>
@@ -94,12 +94,12 @@
         </b-tab>
 
         <!-- tab enderecos -->
-        <b-tab title="Enderecos">
+        <b-tab title="Enderecos" :disabled="!form.id">
           <EnderecosGridComponent :fieldClienteId="form.id" />
         </b-tab>
 
         <!-- tab telefones -->
-        <b-tab title="Telefones">
+        <b-tab title="Telefones" :disabled="!form.id">
           <TelefonesGridComponent :fieldClienteId="form.id" />
         </b-tab>
 
@@ -148,6 +148,9 @@
     },
     methods: {
       save(form) {
+        console.log('form', form)
+        // eslint-disable-next-line no-debugger
+        debugger
         ClientesServices.postCliente(form).then( response => {
         const firstName = response.data.nome.split(' ', 1).join()
         this.showToast('Sucesso', `Cliente ${firstName} incluido com sucesso`, 'success')

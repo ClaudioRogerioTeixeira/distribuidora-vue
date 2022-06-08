@@ -6,20 +6,22 @@ export default {
     return axios.get(`${process.env.VUE_APP_BASE_URL}/api/telefones`);
   },
 
-  // getCliente:(id) => {
-  //   return axios.get(`${process.env.VUE_APP_BASE_URL}/api/clientes/${id}`)
-  // },
+  getTelefone:(id) => {
+    return axios.get(`${process.env.VUE_APP_BASE_URL}/api/telefones/${id}`)
+  },
 
-  // postCliente:(cliente) => {
-  //   return axios.post(`${process.env.VUE_APP_BASE_URL}/api/clientes`, cliente)
-  // },
+  postTelefone:(telefone) => {
+    // eslint-disable-next-line no-debugger
+    debugger
+    return axios.post(`${process.env.VUE_APP_BASE_URL}/api/telefones`, telefone)
+  },
 
-  // putCliente:(cliente) => {
-  //   return axios.put(`${process.env.VUE_APP_BASE_URL}/api/clientes/${cliente.id}`, cliente)
-  // },
+  putTelefone:(telefone) => {
+    return axios.put(`${process.env.VUE_APP_BASE_URL}/api/telefones/${telefone.id}`, telefone)
+  },
 
-  // deleteCliente:(id) => {
-  //   return axios.delete(`${process.env.VUE_APP_BASE_URL}/api/clientes/${id}`)
-  // }
+  deleteTelefone:(id) => {
+    return axios.delete(`${process.env.VUE_APP_BASE_URL}/api/telefones/${id}`)
+  }
 
 }

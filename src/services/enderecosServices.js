@@ -6,20 +6,20 @@ export default {
     return axios.get(`${process.env.VUE_APP_BASE_URL}/api/enderecos`);
   },
 
-  // getCliente:(id) => {
-  //   return axios.get(`${process.env.VUE_APP_BASE_URL}/api/clientes/${id}`)
-  // },
+  getEndereco:(id) => {
+    return axios.get(`${process.env.VUE_APP_BASE_URL}/api/enderecos/${id}`)
+  },
 
-  // postCliente:(cliente) => {
-  //   return axios.post(`${process.env.VUE_APP_BASE_URL}/api/clientes`, cliente)
-  // },
+  postEndereco:(endereco) => {
+    return axios.post(`${process.env.VUE_APP_BASE_URL}/api/enderecos`, endereco)
+  },
 
-  // putCliente:(cliente) => {
-  //   return axios.put(`${process.env.VUE_APP_BASE_URL}/api/clientes/${cliente.id}`, cliente)
-  // },
+  putEndereco:(endereco) => {
+    return axios.put(`${process.env.VUE_APP_BASE_URL}/api/enderecos/${endereco.id}`, endereco)
+  },
 
-  // deleteCliente:(id) => {
-  //   return axios.delete(`${process.env.VUE_APP_BASE_URL}/api/clientes/${id}`)
-  // }
+  deleteEndereco:(id) => {
+    return axios.delete(`${process.env.VUE_APP_BASE_URL}/api/enderecos/${id}`)
+  }
 
 }
