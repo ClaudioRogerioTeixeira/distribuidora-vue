@@ -148,9 +148,6 @@
     },
     methods: {
       save(form) {
-        console.log('form', form)
-        // eslint-disable-next-line no-debugger
-        debugger
         ClientesServices.postCliente(form).then( response => {
         const firstName = response.data.nome.split(' ', 1).join()
         this.showToast('Sucesso', `Cliente ${firstName} incluido com sucesso`, 'success')
