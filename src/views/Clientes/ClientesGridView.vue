@@ -156,9 +156,9 @@
             key: 'dataCadastro',
             label: 'Data',
             sortable: true,
-            formatter: value => {
-              return value.substring(10, 0).split('-').reverse().join('/')
-            }
+            // formatter: value => {
+            // return value.substring(10, 0).split('-').reverse().join('/')
+            // }
           },
           { 
             key: 'actions',
