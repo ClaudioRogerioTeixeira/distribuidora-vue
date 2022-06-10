@@ -34,57 +34,57 @@
         </template>         
 
         <b-form class="mt-2">
-          <b-form-row>          
+          <b-row>          
             <!-- selected tipo -->
-            <b-col cols="3">
+            <b-col lg="3" md="3" sm="12">
               <b-form-group id="tipo-group" label="Tipo">
                 <b-form-select id="tipo" v-model="form.tipo" :options="options" name="tipo"></b-form-select>
               </b-form-group>
             </b-col>
             <!-- logradouro -->
-            <b-col cols="7">
+            <b-col lg="7" md="3" sm="8">
               <b-form-group id="logradouro-group" label="Logradouro" label-for="logradouro">
                 <b-form-input id="logradouro" v-model="form.logradouro" placeholder="Digite o logradouro"></b-form-input>
               </b-form-group>
             </b-col>
             <!-- número -->
-            <b-col cols="2">
+            <b-col lg="2" md="3" sm="4">
               <b-form-group id="numero-group" label="Número" label-for="numero">
                 <b-form-input id="numero" v-model="form.numero" placeholder="Dig. número"></b-form-input>
               </b-form-group>
             </b-col>            
-          </b-form-row>
-          <b-form-row>
+          </b-row>
+          <b-row>
             <!-- complemento -->
-            <b-col cols="6">
+            <b-col md="6" sm="12">
               <b-form-group id="complemento-group" label="Complemento" label-for="complemento">
                 <b-form-input id="complemento" v-model="form.complemento" placeholder="Digite o complemento"></b-form-input>             
               </b-form-group>
             </b-col>
             <!-- bairro -->
-            <b-col cols="6">
+            <b-col md="6" sm="12">
               <b-form-group id="bairro-group" label="Bairro" label-for="bairro">
                 <b-form-input id="bairro" v-model="form.bairro" placeholder="Digite o bairro"></b-form-input>             
               </b-form-group>
             </b-col>            
-          </b-form-row>
+          </b-row>
           <b-form-row>
             <!-- cidade -->
-            <b-col cols="8">
+            <b-col md="8" sm="10">
               <b-form-group id="cidade-group" label="Cidade" label-for="cidade">
                 <b-form-input id="cidade" v-model="form.cidade" placeholder="Digite o cidade"></b-form-input>             
               </b-form-group>
             </b-col>
             <!-- uf -->
-            <b-col cols="1">
+            <b-col md="1" sm="2">
               <b-form-group id="uf-group" label="UF" label-for="uf">
                 <b-form-input id="uf" v-model="form.uf" placeholder="Digite o UF"></b-form-input>             
               </b-form-group>
             </b-col>
             <!-- cep -->
-            <b-col cols="3">
+            <b-col md="3" sm="12">
               <b-form-group id="cep-group" label="Cep" label-for="cep">
-                <b-form-input id="cep" v-model="form.cep" placeholder="Digite o cep"></b-form-input>             
+                <b-form-input id="cep" v-model="form.cep" placeholder="Digite o cep" v-mask="'##.###-###'"></b-form-input>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -254,7 +254,7 @@
           cep: null,
           clienteId: null
         }                
-      }      
+      }
     }
   }
 </script>

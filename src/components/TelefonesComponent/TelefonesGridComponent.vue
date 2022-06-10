@@ -34,34 +34,34 @@
         </template>         
 
         <b-form class="mt-2">
-          <b-form-row>          
+          <b-row>          
             <!-- selected tipo -->
-            <b-col cols="3">
+            <b-col lg="5" md="5" sm="12">
               <b-form-group id="tipo-group" label="Tipo">
                 <b-form-select id="tipo" v-model="form.tipo" :options="options" name="tipo"></b-form-select>
               </b-form-group>
             </b-col>
             <!-- DDD -->
-            <b-col cols="2">
+            <b-col lg="3" md="3" sm="12">
             <b-form-group id="ddd-group" label="DDD" label-for="ddd">
               <b-form-input id="ddd" v-model="form.ddd" placeholder="DDD"></b-form-input>
             </b-form-group>
             </b-col>
             <!-- número -->
-            <b-col cols="4">
+            <b-col lg="3" md="4" sm="12">
             <b-form-group id="numero-group" label="Número" label-for="numero">
-              <b-form-input id="numero" v-model="form.numero" placeholder="Digite o número"></b-form-input>
+              <b-form-input id="numero" v-model="form.numero" placeholder="Digite o número" v-mask="'#####-####'"></b-form-input>
             </b-form-group>
             </b-col>            
-          </b-form-row>
-          <b-form-row>
+          </b-row>
+          <b-row>
             <!-- observacao -->
             <b-col cols="12">
               <b-form-group id="observacao-group" label="Observação" label-for="observacao">
                 <b-form-textarea id="observacao" v-model="form.observacao" placeholder="Digite sua observação" rows="3" max-rows="6"></b-form-textarea>             
               </b-form-group>
             </b-col>
-          </b-form-row>
+          </b-row>
         </b-form>
 
         <div class="d-flex justify-content-end mt-3">
@@ -94,6 +94,7 @@
           id: '',
           tipo: '0',
           ddd: '',
+          numero: '',
           observacao: '',
           clienteId: ''
         },               
@@ -150,8 +151,11 @@
       },
       // método salvar modal
       salvar(form) {
+        const fone = this.form.numero
+        this.form.telefone = fone.replace(/[^\w-]+/g, '-')
         this.form.clienteId = this.fieldClienteId
         this.form.id = undefined
+        this.form.tipo = this.form.tipo.toString()
         TelefonesServices.postTelefone(form).then( () => {
         this.showToast('Sucesso', `Telefone incluído com sucesso`, 'success')        
         this.$refs.modalTelefone.hide()
@@ -199,7 +203,7 @@
           observacao: null,
           clienteId: null
         }                
-      }      
+      }            
     }    
   }
 </script>

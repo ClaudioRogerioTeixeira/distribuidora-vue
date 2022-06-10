@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-2">
+  <div class="container mt-2 pb-5">
     <b-alert show variant="success">{{form.id ? 'Alteração de Cliente' : 'Inclusão de Cliente'}}</b-alert>
 
     <!-- tabs -->
@@ -7,90 +7,91 @@
       <b-tabs content-class="mt-2" justified active-nav-item-class="font-weight-bold text-uppercase text-success">
         <!-- tab dados cadastrais -->
         <b-tab title="Dados Cadastrais" active>
-          <b-form class="mt-2">
-            <b-form-row>
-              <!-- selected tipo -->
-              <b-col cols="2">
-                <b-form-group label="Tipo" v-slot="{ ariaDescribedby }">
-                  <b-form-radio-group id="tipo" v-model="form.tipo" :options="options" :aria-describedby="ariaDescribedby" name="tipo"></b-form-radio-group>
-                </b-form-group>
-              </b-col>
-              <!-- input nome -->
-              <b-col cols="10">
-                <b-form-group id="nome-group" label="Nome" label-for="nome">
-                  <b-form-input id="nome" v-model="form.nome" placeholder="Digite o nome" :state="validationNome"></b-form-input>
-                  <b-form-invalid-feedback :state="validationNome">
-                    Nome deve ter no mínimo 5 caracteres
-                  </b-form-invalid-feedback>
-                  <b-form-valid-feedback :state="validationNome">
-                    Nome válido
-                  </b-form-valid-feedback>        
-                </b-form-group>
-              </b-col>      
-            </b-form-row>
-
-            <b-form-row>
-              <!-- input cnpjCpf -->
-              <b-col cols="2">
-                <b-form-group id="cnpjCpf-group" label="Cnpj/Cpf" label-for="cnpjCpf">
-                  <b-form-input id="cnpjCpf" v-model="form.cnpjCpf" placeholder="Digite o CnpjCpf" :state="validationCnpjCpf"></b-form-input>
-                  <b-form-invalid-feedback :state="validationCnpjCpf">
-                    Cnpj/Cpf deve ter no mínimo 14 caracteres
-                  </b-form-invalid-feedback>
-                  <b-form-valid-feedback :state="validationCnpjCpf">
-                    Cnpj/Cpf válido
-                  </b-form-valid-feedback>        
-                </b-form-group>
-              </b-col>                
-              <!-- input rgIe -->
-              <b-col cols="2">
-                <b-form-group id="rgIe-group" label="RG/Ie" label-for="rgIe">
-                  <b-form-input id="rgIe" v-model="form.rgIe" placeholder="Digite o Rg/Ie" :state="validationRgIe"></b-form-input>
-                  <b-form-invalid-feedback :state="validationRgIe">
-                    Rg/Ie deve ter no mínimo 9 caracteres
-                  </b-form-invalid-feedback>
-                  <b-form-valid-feedback :state="validationRgIe">
-                    Rg/Ie válido
-                  </b-form-valid-feedback>        
-                </b-form-group>          
-              </b-col>
-              <!-- input dataNasc_fundacao -->
-              <b-col cols="4">
-                <b-form-group id="dataNasc_fundacao-group" label="Data Nasc./Fundação" label-for="dataNasc_fundacao">
-                  <b-form-datepicker id="dataNasc_fundacao" v-model="form.dataNasc_fundacao" label-no-date-selected="Selecione uma data" locale="pt-BR"></b-form-datepicker>
-                </b-form-group>          
-              </b-col>
-              <!-- input dataNasc_fundacao -->
-              <b-col cols="4">
-                <b-form-group id="dataCadastro-group" label="Data Cadastro" label-for="dataCadastro">
-                  <b-form-datepicker id="dataCadastro" v-model="form.dataCadastro" label-no-date-selected="Selecione uma data" locale="pt-BR" :min="getToday()"></b-form-datepicker>
-                </b-form-group>          
-              </b-col>
-            </b-form-row>
-            <b-form-row>
-              <!-- input email -->
-              <b-col cols="12">
-                <b-form-group id="email-group" label="Email" label-for="email">
-                  <b-form-input id="email" v-model="form.email" placeholder="Digite o email" :state="validationEmail"></b-form-input>
-                  <b-form-invalid-feedback :state="validationEmail">
-                    Email deve ter no mínimo 10 caracteres
-                  </b-form-invalid-feedback>
-                  <b-form-valid-feedback :state="validationEmail">
-                    Email válido
-                  </b-form-valid-feedback>        
-                </b-form-group>
-              </b-col>      
-            </b-form-row>    
-            <!-- botoes -->
-            <b-form-row class="mb-5">
-              <b-col class="col-12 d-flex justify-content-end">
-                <b-button type="reset" variant="outline-danger" v-b-tooltip.hover="{ variant: 'danger' }" title="Cancelar Cliente" class="mr-1" v-on:click="cancel"><b-icon icon="box-arrow-up-left" class="mr-1"></b-icon>Cancelar</b-button>
-                <b-button type="button" variant="outline-success" v-b-tooltip.hover="{ variant: 'success' }" title="Salvar Cliente" v-on:click="save(form)" v-if="!form.id"><b-icon icon="save" class="mr-1"></b-icon>Salvar</b-button> <!-- :disabled="!getValidation" -->
-                <b-button type="button" variant="outline-warning" v-b-tooltip.hover="{ variant: 'warning' }" title="Alterar Cliente"  v-on:click="update(form)" v-if="form.id"><b-icon icon="arrow-clockwise" class="mr-1"></b-icon>Alterar</b-button> <!-- :disabled="!getValidation" -->
-              </b-col>
-            </b-form-row>      
-          </b-form>
-
+          <b-container>
+            <b-form @submit="save(form)" class="mt-2">
+              <b-row>
+                <!-- selected tipo -->
+                <b-col md="3" sm="12">
+                  <b-form-group label="Tipo" v-slot="{ ariaDescribedby }">
+                    <b-form-radio-group id="tipo" v-model="form.tipo" :options="options" :aria-describedby="ariaDescribedby" name="tipo"></b-form-radio-group>
+                  </b-form-group>
+                </b-col>
+                <!-- input nome -->
+                <b-col md="9" sm="12">
+                  <b-form-group id="nome-group" label="Nome" label-for="nome">
+                    <b-form-input id="nome" v-model="form.nome" placeholder="Digite o nome" :state="validationNome" required></b-form-input>
+                    <b-form-invalid-feedback :state="validationNome">
+                      Nome deve ter no mínimo 5 caracteres
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="validationNome">
+                      Nome válido
+                    </b-form-valid-feedback>        
+                  </b-form-group>
+                </b-col>      
+              </b-row>
+  
+              <b-form-row>
+                <!-- input cnpjCpf -->
+                <b-col md="2" sm="6">
+                  <b-form-group id="cnpjCpf-group" label="Cnpj/Cpf" label-for="cnpjCpf">
+                    <b-form-input id="cnpjCpf" v-model="form.cnpjCpf" placeholder="Digite o CnpjCpf" :state="validationCnpjCpf" required></b-form-input>
+                    <b-form-invalid-feedback :state="validationCnpjCpf">
+                      Cnpj/Cpf deve ter no mínimo 14 caracteres
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="validationCnpjCpf">
+                      Cnpj/Cpf válido
+                    </b-form-valid-feedback>        
+                  </b-form-group>
+                </b-col>                
+                <!-- input rgIe -->
+                <b-col md="2" sm="6">
+                  <b-form-group id="rgIe-group" label="RG/Ie" label-for="rgIe">
+                    <b-form-input id="rgIe" v-model="form.rgIe" placeholder="Digite o Rg/Ie" :state="validationRgIe" required></b-form-input>
+                    <b-form-invalid-feedback :state="validationRgIe">
+                      Rg/Ie deve ter no mínimo 9 caracteres
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="validationRgIe">
+                      Rg/Ie válido
+                    </b-form-valid-feedback>        
+                  </b-form-group>          
+                </b-col>
+                <!-- input dataNasc_fundacao -->
+                <b-col md="4" sm="6">
+                  <b-form-group id="dataNasc_fundacao-group" label="Data Nasc./Fundação" label-for="dataNasc_fundacao">
+                    <b-form-datepicker id="dataNasc_fundacao" v-model="form.dataNasc_fundacao" label-no-date-selected="Selecione uma data" locale="pt-BR"  required></b-form-datepicker> <!-- :state="validationData" -->
+                  </b-form-group>          
+                </b-col>
+                <!-- input dataNasc_fundacao -->
+                <b-col md="4" sm="6">
+                  <b-form-group id="dataCadastro-group" label="Data Cadastro" label-for="dataCadastro">
+                    <b-form-datepicker id="dataCadastro" v-model="form.dataCadastro" label-no-date-selected="Selecione uma data" locale="pt-BR" :min="getToday()" required></b-form-datepicker>
+                  </b-form-group>          
+                </b-col>
+              </b-form-row>
+              <b-form-row>
+                <!-- input email -->
+                <b-col cols="12">
+                  <b-form-group id="email-group" label="Email" label-for="email">
+                    <b-form-input id="email" v-model="form.email" placeholder="Digite o email" :state="validationEmail" required></b-form-input>
+                    <b-form-invalid-feedback :state="validationEmail">
+                      Email deve ter no mínimo 10 caracteres
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="validationEmail">
+                      Email válido
+                    </b-form-valid-feedback>        
+                  </b-form-group>
+                </b-col>      
+              </b-form-row>    
+              <!-- botoes -->
+              <b-form-row class="mb-5">
+                <b-col class="col-12 d-flex justify-content-end">
+                  <b-button type="reset" variant="outline-danger" v-b-tooltip.hover="{ variant: 'danger' }" title="Cancelar Cliente" class="mr-1" v-on:click="cancel"><b-icon icon="box-arrow-up-left" class="mr-1"></b-icon>Cancelar</b-button>
+                  <b-button type="submit" variant="outline-success" v-b-tooltip.hover="{ variant: 'success' }" title="Salvar Cliente"  v-if="!form.id"><b-icon icon="save" class="mr-1"></b-icon>Salvar</b-button> <!-- :disabled="!getValidation" v-on:click="save(form)"-->
+                  <b-button type="button" variant="outline-warning" v-b-tooltip.hover="{ variant: 'warning' }" title="Alterar Cliente"  v-on:click.prevent="update(form)" v-if="form.id"><b-icon icon="arrow-clockwise" class="mr-1"></b-icon>Alterar</b-button> <!-- :disabled="!getValidation" -->
+                </b-col>
+              </b-form-row>      
+          </b-form>           
+          </b-container>
         </b-tab>
 
         <!-- tab enderecos -->
@@ -133,7 +134,7 @@
           cnpjCpf: '',
           rgIe: '',
           dataNasc_fundacao: '',
-          dataCadastro: new Date(),
+          dataCadastro: '', //new Date()
           email: ''
         },        
       }
@@ -147,6 +148,10 @@
       }      
     },
     methods: {
+      // onSubmit(event) {
+      //   event.preventDefault()
+      //   alert(JSON.stringify(this.form))
+      // },      
       save(form) {
         ClientesServices.postCliente(form).then( response => {
         const firstName = response.data.nome.split(' ', 1).join()
@@ -186,7 +191,12 @@
       validationNome() { return this.form.nome.length > 5 },
       validationCnpjCpf() { return this.form.cnpjCpf.length > 13 },
       validationRgIe() { return this.form.rgIe.length > 8  }, //&& this.rgIe.length < 13
-      validationEmail() { return this.form.email.length > 10 }
+      validationEmail() { return this.form.email.length > 10 },
+      // validationData() { return this.form.dataNasc_fundacao != 'undefined' ? false : true }
+    },
+    mounted() {
+            console.log('dataNasc_fundacao', this.form.dataNasc_fundacao)
+      console.log('dataNasc_fundacao', this.form.id)
     }
 
   }
