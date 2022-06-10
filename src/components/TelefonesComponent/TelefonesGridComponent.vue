@@ -49,8 +49,8 @@
             </b-col>
             <!-- número -->
             <b-col lg="3" md="4" sm="12">
-            <b-form-group id="numero-group" label="Número" label-for="numero">
-              <b-form-input id="numero" v-model="form.numero" placeholder="Digite o número" v-mask="'#####-####'"></b-form-input>
+            <b-form-group id="numero-group" label="Número" label-for="numero"> <!-- v-mask="'#####-####'" -->
+              <b-form-input id="numero" v-model="form.numero" placeholder="Digite o número"  v-mask="form.tipo == 0 ? '#####-####' : '####-####'"></b-form-input>
             </b-form-group>
             </b-col>            
           </b-row>
