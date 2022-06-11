@@ -118,9 +118,11 @@
       </b-tabs>  
       
       <!-- conteúdo form -->
+      <!-- 
       <b-card class="mb-5" header="Resultado">
         <pre class="m-0">{{ form }}</pre>
       </b-card>
+       -->
     </div>
 
   </div>
