@@ -22,15 +22,8 @@
                 <!-- input nome -->
                 <b-col md="9" sm="12">
                   <b-form-group id="nome-group" label="Nome" label-for="nome">
-                    <b-form-input id="nome" v-model.trim="$v.form.nome.$model" :class="{ error: $v.form.nome.$error }" placeholder="" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}"></b-form-input>
-                    <b-form-text v-if="$v.form.nome.$dirty">
-                        <p class="error-message" v-if="!$v.form.nome.required">
-                          Digite um nome válido
-                        </p>
-                        <p class="error-message" v-if="!$v.form.nome.minLength">
-                          Campo obrigatório (mínimo 5 caracteres)
-                        </p>
-                    </b-form-text>                    
+                    <b-form-input id="nome" v-model.trim="$v.form.nome.$model" :state="getValidation" aria-describedby="nome-feedback" placeholder="Digite o nome" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}"></b-form-input> <!-- :class="{ error: $v.form.nome.$error }" -->
+                    <b-form-invalid-feedback id="nome-feedback">Campo obrigatório (mínimo 5 caracteres)</b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>      
               </b-row>
@@ -39,29 +32,14 @@
                 <!-- input cnpjCpf -->
                 <b-col md="3" sm="6">
                   <b-form-group id="cnpjCpf-group" label="Cnpj/Cpf" label-for="cnpjCpf">
-                    <b-form-input id="cnpjCpf" v-model.trim="$v.form.cnpjCpf.$model" :class="{ error: $v.form.cnpjCpf.$error }" placeholder="" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}" v-mask="form.tipo == 0 ? '##.###.###/####-##' : '###.###.###-##'"></b-form-input> <!-- :class="{ error: $v.form.cnpjCpf.$error }" -->
-                    <b-form-text v-if="$v.form.nome.$dirty">
-                        <p class="error-message" v-if="!$v.form.cnpjCpf.required">
-                          {{form.tipo == 0 ? 'Digite um CNPJ válido' : 'Digite um CPF válido'}}
-                        </p>
-                        <p class="error-message" v-if="!$v.form.cnpjCpf.minLength">
-                          {{form.tipo == 0 ? 'Campo obrigatório (mínimo 14 caracteres)' : 'Campo obrigatório (mínimo 11 caracteres)'}}
-                        </p>
-                    </b-form-text>     
+                    <b-form-input id="cnpjCpf" v-model.trim="$v.form.cnpjCpf.$model" :state="getValidation" aria-describedby="cnpjCpf-feedback" placeholder="Digite o CnpjCpf" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}" v-mask="form.tipo == 0 ? '##.###.###/####-##' : '###.###.###-##'"></b-form-input> <!-- :class="{ error: $v.form.cnpjCpf.$error }" -->
+                    <b-form-invalid-feedback id="cnpjCpf-feedback">{{ form.tipo == 0 ? 'Campo obrigatório (14 caracteres)' : 'Campo obrigatório (9 caracteres)' }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>                
                 <!-- input rgIe -->
                 <b-col md="3" sm="6">
                   <b-form-group id="rgIe-group" label="RG/Ie" label-for="rgIe">
-                    <b-form-input id="rgIe" v-model.trim="$v.form.rgIe.$model" :class="{ error: $v.form.rgIe.$error }" placeholder="" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}" v-mask="'##############'"></b-form-input>
-                    <b-form-text v-if="$v.form.rgIe.$dirty">
-                        <p class="error-message" v-if="!$v.form.rgIe.required">
-                          {{form.tipo == 0 ? 'Digite um RG válido' : 'Digite um IE válido'}}
-                        </p>
-                        <p class="error-message" v-if="!$v.form.rgIe.minLength">
-                          {{form.tipo == 0 ? 'Campo obrigatório (mínimo 14 caracteres)' : 'Campo obrigatório (mínimo 14 caracteres)'}}
-                        </p>
-                    </b-form-text>                      
+                    <b-form-input id="rgIe" v-model="form.rgIe" placeholder="Digite o Rg/Ie" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}" v-mask="'##############'"></b-form-input>
                   </b-form-group>          
                 </b-col>
                 <!-- input dataNasc_fundacao -->
@@ -81,15 +59,7 @@
                 <!-- input email -->
                 <b-col cols="12">
                   <b-form-group id="email-group" label="Email" label-for="email">
-                    <b-form-input type="email" id="email" v-model.trim="$v.form.email.$model" :class="{ error: $v.form.email.$error }" placeholder="" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}"></b-form-input>
-                    <b-form-text v-if="$v.form.email.$dirty">
-                        <p class="error-message" v-if="!$v.form.email.required">
-                          Campo obrigatório
-                        </p>
-                        <p class="error-message" v-if="!$v.form.email.email">
-                          Digite um email válido
-                        </p>
-                    </b-form-text> 
+                    <b-form-input type="email" id="email" v-model="form.email" placeholder="Digite o email" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}"></b-form-input>
                   </b-form-group>
                 </b-col>      
               </b-form-row>    
@@ -97,8 +67,8 @@
               <b-form-row class="mb-5">
                 <b-col class="col-12 d-flex justify-content-end">
                   <b-button type="reset" variant="outline-danger" v-b-tooltip.hover="{ variant: 'danger' }" title="Cancelar Cliente" class="mr-1" v-on:click="cancel"><b-icon icon="box-arrow-up-left" class="mr-1"></b-icon>Cancelar</b-button>
-                  <b-button type="submit" variant="outline-success" v-b-tooltip.hover="{ variant: 'success' }" title="Salvar Cliente" v-if="!form.id" v-on:click.prevent="save(form)"><b-icon icon="save" class="mr-1"></b-icon>Salvar</b-button> <!-- :disabled="!getValidation" -->
-                  <b-button type="submit" variant="outline-warning" v-b-tooltip.hover="{ variant: 'warning' }" title="Alterar Cliente"  v-on:click.prevent="update(form)" v-if="form.id"><b-icon icon="arrow-clockwise" class="mr-1"></b-icon>Alterar</b-button>
+                  <b-button type="submit" variant="outline-success" v-b-tooltip.hover="{ variant: 'success' }" title="Salvar Cliente" v-if="!form.id" v-on:click.prevent="save(form)" :disabled="!getValidation"><b-icon icon="save" class="mr-1"></b-icon>Salvar</b-button>
+                  <b-button type="submit" variant="outline-warning" v-b-tooltip.hover="{ variant: 'warning' }" title="Alterar Cliente"  v-on:click="update(form)" v-if="form.id" :disabled="!getValidation"><b-icon icon="arrow-clockwise" class="mr-1"></b-icon>Alterar</b-button>
                 </b-col>
               </b-form-row>      
           </b-form>           
@@ -131,7 +101,7 @@
   import ToastMixin from '@/mixins/toastMixin.js'
   import EnderecosGridComponent from '@/components/EnderecosComponent/EnderecosGridComponent.vue'
   import TelefonesGridComponent from '@/components/TelefonesComponent/TelefonesGridComponent.vue'
-  import { required, minLength, email } from 'vuelidate/lib/validators'
+  import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
   export default {
     name: 'ClienteCadastroView',
@@ -165,14 +135,7 @@
         cnpjCpf: {
           required,
           minLength: minLength(14),
-        },
-        rgIe: {
-          required,
-          minLength: minLength(14),
-        },
-        email: {
-          required,
-          email
+          maxLength: maxLength(18)
         }        
       }
     },
@@ -188,8 +151,8 @@
     methods: {   
       // salva o cliente 
       save(form) {
-        this.$v.$touch()
-        if(this.$v.$error) return
+        // this.$v.$touch()
+        // if(this.$v.$error) return
         ClientesServices.postCliente(form).then( response => {
         const firstName = response.data.nome.split(' ', 1).join()
         this.showToast('Sucesso', `Cliente ${firstName} incluido com sucesso`, 'success')
@@ -199,9 +162,7 @@
       },
       // altera o cliente
       update(form) {
-        this.$v.$touch()
-        if(this.$v.$error) return
-        ClientesServices.putCliente(form).then( () => {    
+        ClientesServices.putCliente(form).then( () => {         
           this.showToast('Sucesso', `Cliente alterado com sucesso`, 'success')
           this.clearForm()          
           this.$router.push({ name: 'clientes' })          
@@ -229,15 +190,18 @@
           email: null
         }                
       },
+    },
+    computed: {
+      getValidation() { if(this.$v.form.nome.$dirty === false) { return null } else { return !this.$v.form.nome.$error } }
     }
   }
 </script>
 
 <style scoped>
   .error {
-    border: 3px solid rgba( 220, 20, 60, 0.5);
+    border: 3px solid red;
   }
-  .error-message {
-    color: rgba( 220, 20, 60, 1);
+  .error-color {
+    color: red;
   }
 </style>
