@@ -21,7 +21,7 @@
                 </b-col>
                 <!-- input nome -->
                 <b-col md="9" sm="12">
-                  <b-form-group id="nome-group" label="Nome" label-for="nome">
+                  <b-form-group id="nome-group" label="Nome" label-for="nome" :messages="{ required: 'Campo nome obrigatório' }">
                     <b-form-input id="nome" v-model.trim="$v.form.nome.$model" :class="{ error: $v.form.nome.$error }" placeholder="" required oninvalid="this.setCustomValidity('Campo obrigatório')" onchange="try{setCustomValidity('')}catch(e){}"></b-form-input>
                     <b-form-text v-if="$v.form.nome.$dirty">
                         <p class="error-message" v-if="!$v.form.nome.required">

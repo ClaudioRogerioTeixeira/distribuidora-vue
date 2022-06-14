@@ -1,6 +1,7 @@
 <template>
   <b-container class="container mt-3">
     <b-alert variant="success" show><b-icon icon="people-fill" class="mr-2"></b-icon>Clientes<b-badge variant="light" class="ml-2">{{rows}}</b-badge></b-alert>
+    <!-- Filtragem -->
     <b-container>
       <b-row class="d-flex align-items-center justify-content-center">
         <b-col md="10" sm="6" class="mt-3">
@@ -18,55 +19,62 @@
         </b-col>        
       </b-row>
     </b-container>
-    <b-table id="tab-clientes" class="mt-2" :filter="filter" :filter-included-fields="filterOn" :current-page="currentPage" :per-page="perPage" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" :busy="isBusy" responsive sticky-header striped hover head-variant="light" :fields="fields" :items="clientes">
-      <!-- actions - botões -->
-      <template v-slot:cell(actions)="data">
-        <b-button variant="outline-success" v-on:click="editar(data.item.id)" class="mr-2" v-b-tooltip.hover="{ variant: 'success' }" title="Editar registro"><b-icon icon="pencil"></b-icon></b-button>
-        <b-button variant="outline-danger" v-on:click="excluir(data.item)" v-b-tooltip.hover="{ variant: 'danger' }" title="Excluir registro"><b-icon icon="trash"></b-icon></b-button>
-      </template>
-      <!-- Carregando -->
-      <template #table-busy>
-        <div class="text-center text-danger my-2">
-          <b-spinner class="align-middle mr-2"></b-spinner>
-          <strong>Carregando...</strong>
-        </div>
-      </template>
-      <!-- Tipo -->
-      <template #cell(tipo)="data">
-        <span v-html="data.value == 0 ? 'Jurídico' : 'Físico' "></span>
-      </template>      
-      <!-- <template #table-caption>Registros: {{clientes.length}}</template> -->
-    </b-table>
-    <!-- Total/Per Page/Paginação -->
-    <div class="d-flex justify-content-end mb-5">
-      <b-row>
-        <!-- <b-col cols="5">
-          <b-button  variant="success" v-b-tooltip.hover="{ variant: 'success' }" title="Total Registros">
-            Total: <b-badge variant="light">{{rows}}</b-badge>
-          </b-button>
-        </b-col> -->
-        <!-- per page -->
-        <b-col cols="5">
-          <b-form-select
-              id="per-page-select"
-              v-model="perPage"
-              :options="pageOptions"
-              v-b-tooltip.hover="{ variant: 'success' }" title="Itens por página"
-            ></b-form-select>
-        </b-col>
-        <!-- Paginação -->
-        <b-col cols="4">
-          <b-pagination
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            first-number
-            last-number
-            aria-controls="tab-clientes"
-            v-b-tooltip.hover="{ variant: 'success' }" title="Paginação"
-          ></b-pagination>
-        </b-col>    
-      </b-row>
+    <!-- Mensagem sem registros -->
+    <div v-if="!clientes.length">
+      <b-alert show variant="danger">Nenhum registro cadastrado</b-alert>      
+    </div>    
+    <!-- Tabela -->
+    <div v-if="clientes.length">
+      <b-table id="tab-clientes" class="mt-2" :filter="filter" :filter-included-fields="filterOn" :current-page="currentPage" :per-page="perPage" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" :busy="isBusy" responsive sticky-header striped hover head-variant="light" :fields="fields" :items="clientes">
+        <!-- actions - botões -->
+        <template v-slot:cell(actions)="data">
+          <b-button variant="outline-success" v-on:click="editar(data.item.id)" class="mr-2" v-b-tooltip.hover="{ variant: 'success' }" title="Editar registro"><b-icon icon="pencil"></b-icon></b-button>
+          <b-button variant="outline-danger" v-on:click="excluir(data.item)" v-b-tooltip.hover="{ variant: 'danger' }" title="Excluir registro"><b-icon icon="trash"></b-icon></b-button>
+        </template>
+        <!-- Carregando -->
+        <template #table-busy>
+          <div class="text-center text-danger my-2">
+            <b-spinner class="align-middle mr-2"></b-spinner>
+            <strong>Carregando...</strong>
+          </div>
+        </template>
+        <!-- Tipo -->
+        <template #cell(tipo)="data">
+          <span v-html="data.value == 0 ? 'Jurídico' : 'Físico' "></span>
+        </template>      
+        <!-- <template #table-caption>Registros: {{clientes.length}}</template> -->
+      </b-table>
+      <!-- Total/Per Page/Paginação -->
+      <div class="d-flex justify-content-end mb-5">
+        <b-row>
+          <!-- <b-col cols="5">
+            <b-button  variant="success" v-b-tooltip.hover="{ variant: 'success' }" title="Total Registros">
+              Total: <b-badge variant="light">{{rows}}</b-badge>
+            </b-button>
+          </b-col> -->
+          <!-- per page -->
+          <b-col cols="5">
+            <b-form-select
+                id="per-page-select"
+                v-model="perPage"
+                :options="pageOptions"
+                v-b-tooltip.hover="{ variant: 'success' }" title="Itens por página"
+              ></b-form-select>
+          </b-col>
+          <!-- Paginação -->
+          <b-col cols="4">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="rows"
+              :per-page="perPage"
+              first-number
+              last-number
+              aria-controls="tab-clientes"
+              v-b-tooltip.hover="{ variant: 'success' }" title="Paginação"
+            ></b-pagination>
+          </b-col>    
+        </b-row>
+    </div>
     </div>
 
     <!-- Modal Exclusão  -->
@@ -168,6 +176,7 @@
         ClientesServices.getClientes().then( response => {
           setTimeout(() => {
           this.clientes = response.data
+          console.log('clientes', this.clientes)
           this.isBusy = false
           this.showToast('Sucesso', `Clientes carregados com sucesso`, 'success')        
           }, 500);
